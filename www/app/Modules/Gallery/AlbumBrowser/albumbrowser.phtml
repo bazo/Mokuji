@@ -1,0 +1,48 @@
+<div id="link">
+    {$link}
+</div>
+
+{snippet flash}
+    {foreach $flashes as $flash}<div>{$flash->message}</div>{/foreach}
+{/snippet}
+{if $browser == 'photos'}<a href="{link this albumId => null}">{'Back'}</a>{/if}
+{snippet albums}
+    {if $browser == 'albums'}
+        {foreach $albums as $album}
+        <a href="{link browsePhotos! albumId => $album->id}">
+        <div class="album">
+            <div class="cover_photos">
+                {foreach $album->cover_photos as $photo}
+                <div class="cover_photo cover_photo_{$iterator->getCounter()}">
+                    <img title="{$photo->name}" alt="{$photo->description}" src="{link outputCoverPhoto! file => $photo->file}"/>
+                </div>
+                {/foreach}
+            </div>
+            <p class="name">{$album->name}</p>
+        </a>
+        </div>
+        {/foreach}
+    {/if}
+    {if $browser == 'photos'}
+        {foreach $photos as $photo}
+        <div class="photo">
+            <p class="name">{$photo->name}</p>
+            <img title="{$photo->name}" alt="{$photo->description}" src="{link outputPhoto! file => $photo->file}"/>
+        </div>
+        {/foreach}
+    {/if}
+{/snippet}
+
+<div class="popup">
+{snippet}
+    {if $edit == true}
+    
+        {if $browser == 'albums'}
+            {widget albumForm}
+        {/if}
+        {if $browser == 'photos'}
+            {widget photoForm}
+        {/if}
+    {/if}
+{/snippet}
+    </div>

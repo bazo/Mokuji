@@ -1,0 +1,15 @@
+{assign $title 'Gallery'}
+{block #css}
+    {include #parent}
+    {widget css 'uploader/uploader.css'}
+    {widget moduleCss 'gallery.css'}
+{/block}
+{block #js}
+    {include #parent}
+    {widget js 'uploader/plupload.full.min.js', 'uploader/jquery.plupload.queue.min.js'}
+    {widget moduleJs 'jquery.MultiFile.js', 'galleries.js'}
+{/block}
+@{block #content}
+    {widget uploader}
+   @{widget gallery}
+@{/block}

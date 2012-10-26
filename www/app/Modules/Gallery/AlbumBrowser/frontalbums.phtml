@@ -1,0 +1,14 @@
+{foreach $albums as $album}
+        <a href="{link browsePhotos! albumId => $album->id}">
+        <div class="album">
+            <div class="cover_photos">
+                {foreach $album->cover_photos as $photo}
+                <div class="cover_photo cover_photo_{$iterator->getCounter()}">
+                    <img title="{$photo->name}" alt="{$photo->description}" src="{link outputCoverPhoto! file => $photo->file}"/>
+                </div>
+                {/foreach}
+            </div>
+            <p class="name">{$album->name}</p>
+        </a>
+        </div>
+{/foreach}

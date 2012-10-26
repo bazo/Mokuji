@@ -1,0 +1,6 @@
+{foreach $photos as $photo}
+        <div class="photo">
+            <p class="name">{$photo->name}</p>
+            <img title="{$photo->name}" alt="{$photo->description}" src="{link outputPhoto! file => $photo->file}"/>
+        </div>
+{/foreach}

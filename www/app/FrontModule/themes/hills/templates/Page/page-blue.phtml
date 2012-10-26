@@ -1,0 +1,16 @@
+{extends '../@bluelayout.phtml'}
+{block #css}
+    {include #parent}
+    {foreach $css_files as $css_file}
+        {widget pageCss $css_file}
+    {/foreach}
+{/block}
+{block #js}
+    {include #parent}
+    {foreach $js_files as $js_file}
+        {widget pageJs $js_file}
+    {/foreach}
+{/block}
+{block #content}
+    {!$content}
+{/block}

@@ -1,0 +1,45 @@
+.album {
+    height: 157px;
+    float: left;
+    margin-right: 20px;
+    margin-top: 10px;
+
+}
+.album .cover_photos{
+    width: 140px;
+    height: 150px;
+}
+.album .cover_photos .cover_photo{
+    float: left;
+    margin-right: 10px;
+    margin-top: 10px;
+    position: relative;
+}
+.album .cover_photos .cover_photo{
+    padding: 2px;
+    padding-bottom: 0px;
+    border: 1px solid #dfdac3;
+}
+.album .cover_photos .cover_photo_1{
+    top: 25px;
+    z-index: 4;
+}
+.album .cover_photos .cover_photo_2{
+    top: 5px;
+    left: -25px;
+    z-index: 3;
+}
+.album .cover_photos .cover_photo_3{
+    top: 5px;
+    left: 25px;
+    z-index: 2;
+}
+.album .cover_photos .cover_photo_4{
+    top: -25px;
+    left: 5px;
+    z-index: 1;
+}
+.album .name{
+    width: 100%;
+    text-align: center;
+}

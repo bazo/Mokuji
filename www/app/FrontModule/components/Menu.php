@@ -1,0 +1,87 @@
+<?php
+class Menu extends Control
+{
+	protected $model, $translator, $navigation;
+        
+	public function __construct()
+	{
+            $this->model = new Front_MenuModel();
+            $this->navigation = new NavigationBuilder();
+            return $this;
+	}
+	
+	public function setTranslator(ITranslator $translator)
+	{
+            $this->translator = $translator;
+            return $this;
+	}
+	
+	public function render($menu_name)
+	{
+            $this->navigation->items = array();
+            $this->navigation->template->setTranslator($this->translator);
+            $menu = $this->model->getByName($menu_name);
+            if($menu->template != '') $this->navigation->setTemplate(APP_DIR.$this->getPresenter()->pathToTheme.'/templates/Menus/menu-'.$menu->template.'.phtml');
+            if($menu != false)
+            {
+                $items = $this->getItems($menu->id);
+                $this->fillNavigation($items);
+                $this->navigation->render();
+            }
+        
+	}
+		
+	private function getItems($menu_id, $parent = 0)
+	{
+            return $this->model->getMenuItems($menu_id);
+	}
+	
+	private function fillNavigation($items)
+	{
+            foreach($items as $key => $item)
+            {
+                $lang = $this->getPresenter()->lang;
+                $parts = explode('/', $item->url);
+                if($item->level == 1)
+                {
+                    if($item->link_type == 'internal')
+                    {
+                        if($item->url == 'homepagelink')
+                            $this->navigation->add($item->title, $this->getPresenter()
+                            ->link(':Front:HomePage:homepage'));
+                        elseif ( count($parts) == 1 )
+                            $this->navigation->add($item->title, $this->getPresenter()
+                            ->link(':Front:page:categoryView', array('category' => $item->url, 'lang' => $lang)));
+                        elseif ( count($parts) == 2 )
+                            $this->navigation->add($item->title, $this->getPresenter()
+                            ->link(':Front:page:pageView', array('category' => $parts[0], 'page' => $parts[1], 'lang' => $lang)));
+                    }
+                    else $this->navigation->add($item->title, $item->url);
+                }
+                else
+                {
+                    try
+                    {
+                        if($item->link_type == 'internal')
+                        {
+                            if($item->url == 'homepagelink')
+                                $this->navigation->getR($item->parent)->add($item->title, $this->getPresenter()
+                                ->link(':Front:HomePage:homepage'));
+                            elseif ( count($parts) == 1 )
+                                $this->navigation->getR($item->parent)->add($item->title, $this->getPresenter()
+                                ->link(':Front:page:categoryView', array('category' => $item->url, 'lang' => $lang)));
+                            elseif ( count($parts) == 2 )
+                                $this->navigation->getR($item->parent)->add($item->title, $this->getPresenter()
+                                ->link(':Front:page:pageView', array('category' => $parts[0], 'page' => $parts[1], 'lang' => $lang)));
+                        }
+                        else $this->navigation->getR($item->parent)->add($item->title, $item->url);
+                    }
+                    catch(Exception $e)
+                    {
+                        echo $e->getMessage();
+                    }
+                }
+            }
+	}
+}
+?>
